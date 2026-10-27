@@ -1783,8 +1783,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.response(content, content_type)
             elif path.startswith("/media/") or path.startswith("/thumb/"):
                 self.serve_media(path.split('/')[-1], path.startswith('/thumb/'))
-            elif unquote(path) in ('/guide', '/사용설명서.html', '/distribution', '/배포안내.html', '/guide.css'):
-                name = {'/guide': '사용설명서.html', '/사용설명서.html': '사용설명서.html', '/distribution': '배포안내.html', '/배포안내.html': '배포안내.html', '/guide.css': 'guide.css'}[unquote(path)]
+            elif unquote(path) in ('/guide', '/user-guide.html', '/사용설명서.html', '/distribution', '/distribution-guide.html', '/배포안내.html', '/guide.css'):
+                name = {'/guide': 'user-guide.html', '/user-guide.html': 'user-guide.html', '/사용설명서.html': 'user-guide.html', '/distribution': 'distribution-guide.html', '/distribution-guide.html': 'distribution-guide.html', '/배포안내.html': 'distribution-guide.html', '/guide.css': 'guide.css'}[unquote(path)]
                 self.response((ROOT / 'docs' / name).read_bytes(), 'text/css; charset=utf-8' if name == 'guide.css' else 'text/html; charset=utf-8')
             else:
                 self.json_response({"error": "페이지를 찾을 수 없습니다."}, 404)

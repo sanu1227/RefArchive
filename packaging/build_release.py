@@ -74,13 +74,13 @@ def main():
     command = [sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean', '--onedir', '--windowed', '--noupx',
                '--name', 'RefArchive', '--distpath', str(output_dir), '--workpath', str(ROOT / 'build' / 'pyinstaller'),
                '--specpath', str(ROOT / 'build'), '--exclude-module', 'pymupdf', '--exclude-module', 'fitz']
-    for source, destination in [('web', 'web'), ('docs/사용설명서.html', 'docs'), ('docs/배포안내.html', 'docs'), ('docs/guide.css', 'docs'), ('ocr.ps1', '.'), ('install-shortcut.ps1', '.'), (str(assets / 'THIRD_PARTY_NOTICES.txt'), '.')]:
+    for source, destination in [('web', 'web'), ('docs/user-guide.html', 'docs'), ('docs/distribution-guide.html', 'docs'), ('docs/guide.css', 'docs'), ('ocr.ps1', '.'), ('install-shortcut.ps1', '.'), (str(assets / 'THIRD_PARTY_NOTICES.txt'), '.')]:
         command += ['--add-data', f'{ROOT / source}:{destination}']
     command.append(str(ROOT / 'launcher.py'))
     subprocess.run(command, cwd=ROOT, check=True)
     bundle = output_dir / 'RefArchive'
     shutil.copy2(ROOT / 'packaging' / 'start-guide.txt', bundle / '처음 읽어주세요.txt')
-    for name in ('사용설명서.html', '배포안내.html', 'guide.css'):
+    for name in ('user-guide.html', 'distribution-guide.html', 'guide.css'):
         shutil.copy2(ROOT / 'docs' / name, bundle / name)
     shutil.copy2(assets / 'THIRD_PARTY_NOTICES.txt', bundle)
     shutil.copy2(assets / 'versions.json', bundle)

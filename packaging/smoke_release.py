@@ -123,7 +123,7 @@ def main():
         assert '<article>' in request('GET', '/guide').decode()
         assert '<article>' in request('GET', '/distribution').decode()
         assert len(request('GET', '/guide.css')) > 1000
-        assert (bundle / '사용설명서.html').is_file() and (bundle / '배포안내.html').is_file()
+        assert (bundle / 'user-guide.html').is_file() and (bundle / 'distribution-guide.html').is_file()
         assert not (bundle / '_internal' / 'docs' / 'user-guide.md').exists()
         assert len(request('GET', '/app.js')) > 1000
         assert len(request('GET', '/workspace.css')) > 1000

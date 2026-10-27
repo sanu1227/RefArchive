@@ -39,8 +39,8 @@ Source: "{#ReleaseDir}\RefArchive\*"; DestDir: "{app}"; Flags: ignoreversion rec
 [Icons]
 Name: "{group}\RefArchive"; Filename: "{app}\RefArchive.exe"
 Name: "{userdesktop}\RefArchive"; Filename: "{app}\RefArchive.exe"; Tasks: desktopicon
-Name: "{group}\RefArchive 사용설명서"; Filename: "{app}\사용설명서.html"
-Name: "{group}\RefArchive 배포 안내"; Filename: "{app}\배포안내.html"
+Name: "{group}\RefArchive 사용설명서"; Filename: "{app}\user-guide.html"
+Name: "{group}\RefArchive 배포 안내"; Filename: "{app}\distribution-guide.html"
 
 [Run]
 Filename: "{app}\RefArchive.exe"; Description: "{cm:LaunchProgram,RefArchive}"; Flags: nowait postinstall skipifsilent

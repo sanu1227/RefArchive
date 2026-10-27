@@ -4,7 +4,7 @@
 <title>RefArchive · 사용설명서</title><link rel="stylesheet" href="guide.css"></head>
 <body><a class="skip-link" href="#content">본문 바로가기</a>
 <header class="guide-header"><div><span class="brand">RefArchive</span><p>이미지·PDF·링크를 모으고 다시 찾는 나의 자료함</p></div>
-<nav aria-label="안내 종류"><a href="사용설명서.html" aria-current="page">사용설명서</a><a href="배포안내.html" >설치 · 배포 안내</a></nav></header>
+<nav aria-label="안내 종류"><a href="user-guide.html" aria-current="page">사용설명서</a><a href="distribution-guide.html" >설치 · 배포 안내</a></nav></header>
 <div class="guide-layout"><aside class="guide-toc"><details open><summary>목차 · 원하는 항목으로 이동</summary><div class="toc">
 <ul>
 <li><a href="#_1">카테고리 자동 배정과 정확도 높이기</a></li>
@@ -60,7 +60,7 @@
 <article><h1 id="refarchive">RefArchive 사용설명서</h1>
 <p>RefArchive는 이미지·동영상·PDF·Office 문서·텍스트·링크를 PC에 보관하고, 키워드와 카테고리로 다시 찾는 개인 자료함입니다. 이 설명서는 현재 구현된 버전의 실행, 자료 등록, 검색, 정리, 백업과 복원 방법을 안내합니다.</p>
 <p>카테고리를 먼저 만들면 새 자료의 제목·본문 등을 비교해 적합한 카테고리에 자동 배정합니다. 키워드도 직접 입력하거나 자동 분류를 켤 수 있습니다. PDF·OCR 텍스트와 요약 결과도 검색에 활용할 수 있습니다.</p>
-<p>앱 상단의 <strong>사용법</strong>, 시작 메뉴의 <strong>RefArchive 사용설명서</strong>, 또는 배포 폴더의 <strong>사용설명서.html</strong>을 열면 이 안내를 브라우저에서 읽을 수 있습니다. 목차를 누르면 해당 항목으로 이동합니다. 프로그램이 꺼져 있거나 인터넷이 없어도 HTML 파일로 읽을 수 있습니다.</p>
+<p>앱 상단의 <strong>사용법</strong>, 시작 메뉴의 <strong>RefArchive 사용설명서</strong>, 또는 배포 폴더의 <strong>user-guide.html</strong>을 열면 이 안내를 브라우저에서 읽을 수 있습니다. 목차를 누르면 해당 항목으로 이동합니다. 프로그램이 꺼져 있거나 인터넷이 없어도 HTML 파일로 읽을 수 있습니다.</p>
 <blockquote>
 <p>버전 안내: 제목·본문 텍스트 규칙은 0.6.0부터, Office·텍스트 문서 지원과 자료 날짜 기능은 0.5.0부터 제공합니다. 카테고리 자동 배정·등록일 그룹은 0.7.0부터 제공합니다. 아래 고정 다운로드 링크에서 최신 공개 버전을 받을 수 있습니다. 받은 설치파일·ZIP의 버전은 릴리스 페이지에서 확인하세요. 앱의 실행 버전은 보관 · 백업에서 확인할 수 있습니다.</p>
 </blockquote>
@@ -338,7 +338,7 @@
 <li>생성형 AI 요약, 정교한 한국어 형태소 분석.</li>
 <li>클라우드 동기화, 외부 접속, 브라우저와 분리된 독립 데스크톱 창.</li>
 </ul>
-<p>설치와 다른 PC로 자료를 옮기는 방법은 <a href="배포안내.html">설치 · 배포 안내</a>에서 확인할 수 있습니다.</p>
+<p>설치와 다른 PC로 자료를 옮기는 방법은 <a href="distribution-guide.html">설치 · 배포 안내</a>에서 확인할 수 있습니다.</p>
 <h2 id="040">0.4.0 업데이트와 백업 호환</h2>
 <p>이전 자료함은 첫 실행에서 필요한 경우 새 형식으로 변환합니다. 변환 전 SQLite 사본은 데이터 폴더의 <code>backups/migration-v1-*.sqlite3</code> 또는 <code>migration-v2-*.sqlite3</code>·<code>migration-v3-*.sqlite3</code>·<code>migration-v4-*.sqlite3</code>에 보관됩니다. 원본 파일·수동 분류·메모·기존 자료 모음을 유지합니다. 묶음 대표 파일과 1 GiB를 넘는 백업은 0.4.0 이상으로 여세요. 이전 앱으로 되돌릴 때는 업데이트 전에 만든 ZIP 백업을 사용하세요. 동영상도 ZIP에 포함하며 백업·복원 한도는 각각 50 GiB입니다.</p>
 <h2 id="_29">묶음 대표 파일·순서·개별 분리</h2>

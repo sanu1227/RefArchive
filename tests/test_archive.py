@@ -246,7 +246,7 @@ class HTTPTests(unittest.TestCase):
 
     def test_offline_html_guides_and_encoded_document_links(self):
         from urllib.parse import quote
-        for path in ('/guide', '/' + quote('사용설명서.html'), '/distribution', '/' + quote('배포안내.html')):
+        for path in ('/guide', '/user-guide.html', '/' + quote('사용설명서.html'), '/distribution', '/distribution-guide.html', '/' + quote('배포안내.html')):
             status, headers, content = self.request('GET', path)
             self.assertEqual(status, 200)
             self.assertEqual(headers['Content-Type'], 'text/html; charset=utf-8')
