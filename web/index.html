@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="refarchive-token" content="__SESSION_TOKEN__">
+  <title>RefArchive · 나의 자료함</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/workspace.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">자료 목록으로 건너뛰기</a>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="RefArchive 홈"><span class="brand-mark">R</span><span>RefArchive<small>수집한 영감을, 다시 발견하다</small></span></a>
+    <div class="library-label"><span class="status-dot"></span> 나의 로컬 라이브러리</div>
+    <nav aria-label="자료함">
+      <button class="nav-button active" data-view="all"><span>▦</span> 전체 자료 <b id="all-count">0</b></button>
+      <button class="nav-button" data-view="uncategorized"><span>▤</span> 카테고리 미지정 <b id="uncategorized-count">0</b></button>
+      <button class="nav-button" data-view="unfiled"><span>#</span> 키워드 미지정 <b id="unfiled-count">0</b></button>
+      <button class="nav-button" data-view="favorites"><span>☆</span> 즐겨찾기 <b id="favorite-count">0</b></button>
+      <button class="nav-button" data-view="trash"><span>▥</span> 휴지통 <b id="trash-count">0</b></button>
+    </nav>
+    <div class="sidebar-heading">카테고리<button id="new-category" aria-label="카테고리 추가">+</button></div>
+    <div id="category-nav" class="category-list"></div>
+    <div class="sidebar-heading group-heading">모음<button id="sidebar-new-group" aria-label="빈 모음 만들기">+</button></div>
+    <div id="collection-nav" class="category-list group-list" aria-label="모음 목록"></div>
+    <div class="sidebar-bottom">
+      <button id="manage-button">키워드 · 카테고리 관리</button>
+      <button id="saved-manager-button">검색 조건 · 모음</button>
+      <button id="review-button">분류 확인함</button>
+      <button id="settings-button">보관 · 백업</button>
+      <p>원본은 이 PC에 보관됩니다.<br>외부 전송 없이 정리하세요.</p>
+    </div>
+  </aside>
+  <main id="main-content">
+    <header class="page-header"><div><div class="eyebrow">PERSONAL ARCHIVE</div><h1 id="page-title">전체 자료</h1><p id="page-description">모아 둔 자료에서 다음 아이디어를 찾아보세요.</p></div><div class="header-actions"><button type="button" class="job-toggle" hidden>분석 상태</button><a class="button secondary help-link" href="/guide" target="_blank" rel="noopener noreferrer">사용법</a><button class="button secondary" id="add-link">링크 저장</button><button class="button primary" id="add-images">+ 이미지 추가</button></div></header>
+    <div id="library-summary" class="library-summary" aria-label="자료 유형 바로 보기"></div>
+    <section id="job-status" class="job-status" aria-label="분석 작업 상태" hidden>
+      <div class="job-heading"><span class="job-indicator" aria-hidden="true"></span><div class="job-announcement" role="status" aria-live="polite" aria-atomic="true"><strong class="job-title"></strong><span class="job-count"></span></div><button type="button" class="job-dismiss" aria-label="분석 표시 닫기" title="분석은 계속 진행됩니다">×</button></div>
+      <progress class="job-progress" aria-label="분석 처리 진행률" max="1"></progress>
+      <p class="job-detail"></p>
+    </section>
+    <section class="search-panel" aria-label="자료 검색">
+      <div class="search-line"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="키워드, 제목, 메모, 출처로 검색" aria-label="자료 검색"><select id="sort" aria-label="정렬"><option value="newest">등록일 최신순</option><option value="oldest">등록일 오래된순</option><option value="date-desc">자료 날짜 최신순</option><option value="date-asc">자료 날짜 오래된순</option><option value="title">제목순</option></select></div>
+      <details class="advanced-search"><summary id="advanced-label">상세 검색</summary><div class="filter-line"><select id="type-filter" aria-label="자료 유형"><option value="all">모든 자료</option><option value="image">이미지</option><option value="bundle">묶음</option><option value="video">동영상</option><option value="link">링크</option><option value="document">문서</option></select><select id="match-mode" aria-label="키워드 조건"><option value="all">키워드 모두 포함</option><option value="any">키워드 하나 이상</option></select><label class="exclude-label">제외 키워드 <input id="exclude-tags" placeholder="사진, 스케치" aria-label="제외 키워드"></label><button class="text-button" id="clear-filters">조건 초기화</button></div>
+      <div class="date-filters"><label>자료 날짜 시작<input id="date-from" type="date" min="0001-01-01" max="9999-12-31"></label><label>자료 날짜 끝<input id="date-to" type="date" min="0001-01-01" max="9999-12-31"></label><span>기간은 양 끝 날짜를 포함하며, 미지정 자료는 제외합니다.</span><p id="date-filter-error" role="alert" hidden>시작일은 종료일보다 늦을 수 없습니다.</p></div>
+      <div id="tag-filters" class="tag-filters" aria-label="키워드 필터"></div>
+      <div class="saved-line"><label>저장 검색<select id="saved-search" aria-label="저장 검색"><option value="">검색 조건 선택</option></select></label><button id="save-search" class="text-button">현재 조건 저장</button><label>모음<select id="collection-filter" aria-label="모음"><option value="">모든 자료</option></select></label></div></details>
+    </section>
+    <div class="results-bar"><span id="results-count">자료를 불러오는 중…</span><label class="date-group-label">날짜별 모아 보기<select id="date-group"><option value="registered-month" selected>등록일 · 연월별</option><option value="registered-day">등록일 · 일별</option><option value="registered-year">등록일 · 연도별</option><option value="month">자료 날짜 · 연월별</option><option value="year">자료 날짜 · 연도별</option><option value="none">그룹 없음</option></select></label><div><button id="select-all" class="text-button">결과 모두 선택</button><button id="clear-selection" class="text-button">선택 해제</button></div></div>
+    <section id="batch-bar" class="batch-bar" hidden aria-label="선택 자료 편집"><strong id="selected-count">0개 선택</strong><input id="batch-tags" placeholder="키워드, 쉼표로 구분" aria-label="일괄 키워드"><input id="batch-categories" placeholder="카테고리, 쉼표로 구분" aria-label="일괄 카테고리"><button data-batch="add">추가</button><button data-batch="remove">제거</button><button data-batch="favorite">즐겨찾기</button><button id="batch-trash" data-batch="trash">휴지통</button><button id="bundle-selected">하나로 묶기</button><button id="new-collection">새 모음</button><button id="collection-add">모음에 추가</button><button id="collection-remove">모음에서 제외</button><button id="compare-button">이미지 비교</button><button id="classify-selected">선택 자료 분류</button></section>
+    <div id="grid" class="asset-grid"></div>
+    <section id="empty-state" class="empty-state" hidden><div class="empty-art" aria-hidden="true"><span></span><span></span><span></span></div><h2 id="empty-title">첫 번째 자료를 모아보세요</h2><p id="empty-description">이미지·동영상을 끌어 놓거나 링크를 저장하세요.<br>키워드는 지금 붙여도, 나중에 정리해도 괜찮습니다.</p><button id="empty-upload" class="button primary">이미지 추가</button><small>JPG · PNG · WebP / 파일당 최대 50 MB</small></section>
+    <footer class="workspace-footer">RefArchive <span>로컬 저장 · 수동 분류</span><span id="connection-status">연결 확인 중</span></footer>
+  </main>
+  <div id="drop-overlay" hidden><div>자료를 놓아 한 번에 모아보세요<small>이미지 · PDF · Office 문서 · 텍스트 · 동영상</small></div></div>
+  <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4,video/webm,.pdf,.mp4,.webm,.docx,.xlsx,.pptx,.txt,.md,.csv,.tsv,.log" multiple hidden>
+  <input id="restore-input" type="file" accept=".zip" hidden>
+  <datalist id="known-tags"></datalist><datalist id="known-categories"></datalist>
+  <dialog id="upload-dialog" class="upload-dialog">
+    <form id="upload-form"><div class="dialog-heading"><div><div class="eyebrow">COLLECT</div><h2>이미지 추가</h2></div><button type="button" class="close-button" data-close aria-label="닫기">×</button></div><p id="upload-files" class="dialog-description"></p>
+      <div id="upload-file-list" class="upload-file-list" aria-label="업로드할 파일"></div>
+      <div class="upload-bundle-box"><label>저장 방식<select id="upload-mode"><option value="separate">파일마다 각각 저장</option><option value="bundle">여러 파일을 하나의 묶음으로 저장</option></select></label><label id="bundle-title-label" hidden>묶음 제목<input id="bundle-title" name="bundleTitle" maxlength="200" placeholder="예: 캐릭터 A · 설정 자료"></label><p>묶음은 목록에서 카드 1개로 보이며, 상세에서 모든 파일을 열 수 있습니다.</p></div>
+      <div class="upload-group-box"><label>모음에 추가 (선택)<select id="upload-group" name="uploadGroup"><option value="">모음 없이 저장</option><option value="new">+ 새 모음 만들기</option></select><small>모음은 폴더처럼 자료를 모아 보는 목록입니다.</small></label>
+      <label id="upload-group-name-label" hidden>새 모음 이름<input id="upload-group-name" name="uploadGroupName" maxlength="60" placeholder="예: 프로젝트 A · 동작 참고"></label></div><label>공통 키워드<input name="tags" list="known-tags" placeholder="갑옷, 전신, 역광" maxlength="5000"><small>쉼표로 구분하세요. 비워 두면 미분류함에 저장합니다.</small></label><label>공통 카테고리<input name="categories" list="known-categories" placeholder="의상, 인체" maxlength="5000"></label><label>출처 URL<input name="source" type="url" placeholder="https://" maxlength="4000"></label><label>자료 날짜 (선택)<input name="material_date" type="date" min="0001-01-01" max="9999-12-31"><small>제작일·발행일 등 직접 확인한 날짜를 입력하세요. 비우면 미지정으로 보관하며 등록일은 바뀌지 않습니다.</small></label><label>메모<textarea name="note" rows="3" maxlength="20000" placeholder="이 자료에서 참고할 부분"></textarea></label><p class="upload-help">이미지·PDF·문서 50 MB / MP4·WebM 200 MB까지 · 원본을 복사해 보관합니다. DOCX·XLSX·PPTX, TXT·MD·CSV·TSV·LOG를 지원합니다. 구형 DOC·XLS·PPT, 매크로·암호화 문서는 지원하지 않습니다.</p><progress id="upload-meter" max="1" value="0" hidden aria-label="자료 저장 진행률"></progress><p id="upload-progress" class="progress" role="status"></p><div class="dialog-actions"><button type="button" class="button secondary" data-close>취소</button><button type="submit" class="button primary">자료 저장</button></div></form>
+  </dialog>
+  <dialog id="link-dialog">
+    <form id="link-form"><div class="dialog-heading"><div><div class="eyebrow">BOOKMARK</div><h2>링크 저장</h2></div><button type="button" class="close-button" data-close aria-label="닫기">×</button></div><p class="dialog-description">주소와 메모를 보관합니다. 파일 다운로드는 이후 단계에서 지원합니다.</p><label>주소<input name="source" type="url" placeholder="https://" required maxlength="4000"></label><label>제목<input name="title" placeholder="기억하기 쉬운 이름" maxlength="200"></label><label>키워드<input name="tags" list="known-tags" placeholder="색채 이론, 강의"></label><label>카테고리<input name="categories" list="known-categories" placeholder="학습"></label><label>자료 날짜 (선택)<input name="material_date" type="date" min="0001-01-01" max="9999-12-31"><small>제작일·발행일 등 직접 확인한 날짜를 입력하세요. 비우면 미지정으로 보관하며 등록일은 바뀌지 않습니다.</small></label><label>메모<textarea name="note" rows="3" maxlength="20000"></textarea></label><div class="dialog-actions"><button type="button" class="button secondary" data-close>취소</button><button type="submit" class="button primary">링크 저장</button></div></form>
+  </dialog>
+  <dialog id="detail-dialog" class="detail-dialog">
+    <div class="detail-layout"><div class="detail-media"><div id="detail-preview" class="detail-preview"></div><nav id="bundle-files" class="bundle-files" aria-label="묶음 파일 선택" hidden></nav></div><form id="detail-form"><div class="dialog-heading"><h2>자료 상세</h2><button type="button" class="close-button" data-close aria-label="닫기">×</button></div><input name="id" type="hidden"><label>제목<input name="title" required maxlength="200"></label><label>키워드<input name="tags" list="known-tags"></label><label>카테고리<input name="categories" list="known-categories"></label><label>출처 URL<input name="source" type="url" maxlength="4000"></label><label>자료 날짜 (선택)<input name="material_date" type="date" min="0001-01-01" max="9999-12-31"><small>제작일·발행일 등 직접 확인한 날짜를 입력하세요. 비우면 미지정으로 보관하며 등록일은 바뀌지 않습니다.</small></label><label>메모<textarea name="note" rows="5" maxlength="20000"></textarea></label><p id="file-original-note" class="dialog-description" hidden></p><p id="detail-meta" class="dialog-description"></p><a id="source-link" class="source-link" target="_blank" rel="noopener noreferrer" hidden>출처 열기 ↗</a><div class="dialog-actions"><button type="button" id="split-bundle" class="button secondary" hidden>묶음 풀기</button><button type="button" id="detail-favorite" class="button secondary">즐겨찾기</button><button type="submit" class="button primary">변경 저장</button></div></form></div>
+  </dialog>
+  <dialog id="manage-dialog" class="wide-dialog"><div class="dialog-heading"><div><div class="eyebrow">ORGANIZE</div><h2>키워드 · 카테고리 관리</h2></div><button class="close-button" data-close aria-label="닫기">×</button></div><p class="info-note">카테고리를 만들면 새 자료의 제목·본문을 비교해 자동 배정합니다. 카테고리의 분류 기준에서 설명·포함·제외 문구를 설정하세요. 이미지 키워드 유사도는 확정 이미지 10개와 모델이 필요합니다.</p><div class="manage-columns"><section><h3>키워드</h3><form id="new-tag-form" class="inline-form"><input name="name" placeholder="새 키워드" maxlength="60" required aria-label="새 키워드"><button class="button secondary">추가</button></form><div id="manage-tags"></div></section><section><h3>카테고리</h3><form id="new-category-form" class="inline-form"><input name="name" placeholder="새 카테고리" maxlength="60" required aria-label="새 카테고리"><button class="button secondary">추가</button></form><div id="manage-categories"></div></section></div></dialog>
+  <dialog id="settings-dialog"><div class="dialog-heading"><div><div class="eyebrow">KEEP SAFE</div><h2>보관 · 백업</h2></div><button class="close-button" data-close aria-label="닫기">×</button></div><div class="settings-block"><h3>원본 보관 위치</h3><p id="storage-path" class="storage-path"></p><p>업로드한 원본은 복사해 보관합니다. 카테고리 제거는 파일을 삭제하지 않습니다.</p></div><div class="settings-block"><h3>전체 백업 내보내기</h3><p>원본, 미리보기, SQLite, 키워드·메모를 ZIP에 함께 저장합니다. 휴지통 자료도 포함합니다.</p><button id="backup-button" class="button primary">백업 ZIP 저장</button><button id="metadata-button" class="button secondary">메타데이터 JSON 저장</button></div><div class="settings-block"><h3>백업 복원</h3><p>현재 자료함을 백업의 내용으로 교체합니다. 교체 전 자료함은 안전 백업과 이전 폴더로 보관합니다.</p><button id="restore-button" class="button secondary">백업 ZIP 선택</button></div><p class="info-note">자료와 분석 결과는 이 PC에 보관됩니다. 모델 준비와 링크 가져오기는 인터넷 연결이 필요합니다.</p></dialog>
+  <dialog id="choice-dialog"><form id="choice-form"><div class="dialog-heading"><h2 id="choice-title">작업 확인</h2></div><p id="choice-message" class="dialog-description"></p><label id="choice-label">이름<input id="choice-input" maxlength="60"></label><div class="dialog-actions"><button id="choice-cancel" type="button" class="button secondary">취소</button><button type="submit" class="button primary">확인</button></div></form></dialog>
+  <dialog id="saved-dialog" class="wide-dialog"><div class="dialog-heading"><h2>검색 조건 · 모음</h2><button class="close-button" data-close aria-label="닫기">×</button></div><p class="dialog-description">저장 검색은 조건에 맞는 새 자료도 보여 줍니다. 모음은 직접 선택한 자료를 보관합니다.</p><div class="manage-columns"><section><h3>저장 검색</h3><div id="saved-search-list"></div></section><section><h3>모음</h3><button id="empty-collection" class="button secondary">빈 모음 만들기</button><div id="collection-list"></div></section></div></dialog>
+  <dialog id="review-dialog" class="wide-dialog"><div class="dialog-heading"><h2>분류 확인함</h2><button class="close-button" data-close aria-label="닫기">×</button></div><p class="info-note">카테고리의 배정 근거와 후보, 키워드의 일치 문구·유사 사례를 확인하세요. 애매한 자료는 자동 배정하지 않습니다. 승인한 자료는 다음 분류의 비교 사례가 됩니다. 점수는 정확도 확률이 아닙니다.</p><label>표시할 결과<select id="review-filter"><option value="open">확인 대기·자동 적용</option><option value="history">승인·거절 기록</option></select></label><button id="classify-all" class="button secondary">자료 다시 분류</button><div id="review-list"></div></dialog>
+  <dialog id="compare-dialog" class="compare-dialog"><div class="dialog-heading"><h2>이미지 비교</h2><button class="close-button" data-close aria-label="닫기">×</button></div><div id="compare-grid"></div></dialog>
+  <dialog id="similar-dialog" class="wide-dialog"><div class="dialog-heading"><h2>유사 이미지</h2><button class="close-button" data-close aria-label="닫기">×</button></div><p class="info-note">CLIP 이미지 특징의 코사인 유사도 순으로 최대 30개를 표시합니다. 유사도는 정확도 확률이나 중복 판정이 아닙니다.</p><div id="similar-list"></div></dialog>
+  <dialog id="link-images-dialog" class="wide-dialog"><div class="dialog-heading"><h2>링크 이미지 가져오기</h2><button class="close-button" data-close aria-label="닫기">×</button></div><p class="dialog-description">공개 페이지의 img·대표 이미지 주소와 직접 이미지 링크를 지원합니다. 로그인·접근 제한·영상·스크립트로 생성되는 페이지는 지원하지 않습니다. 저장할 권한이 있는 자료만 선택하세요.</p><div id="link-image-list"></div></dialog>
+  <template id="analysis-template"><section class="analysis-panel"><h3>내용 분석</h3><p>저장된 메모 또는 문서에서 원문 문장을 뽑아 요약합니다. OCR·요약은 사용자 메모와 별도로 보관합니다.</p><button type="button" id="detail-similar" class="button secondary">유사 이미지 찾기</button><button type="button" id="analyze-text" class="button secondary">텍스트 추출 · 요약</button><label>OCR 언어<select id="ocr-language"><option value="ko-KR">한국어</option><option value="en-US">영어 · 언어팩 필요</option></select></label><button type="button" id="analyze-ocr" class="button secondary">이미지 · 스캔 PDF OCR</button><p id="analysis-method"></p><div id="analysis-summary"></div><div id="analysis-keywords" class="analysis-keywords"></div><button type="button" id="apply-analysis-tags" class="button secondary">선택 키워드 추가</button><div id="analysis-pages" hidden><label>근거 페이지<select id="analysis-page"></select></label><a id="analysis-page-link" target="_blank" rel="noopener noreferrer" hidden>PDF 페이지 열기 ↗</a><textarea id="analysis-text" rows="8" maxlength="100000" aria-label="추출 텍스트 수정"></textarea><button type="button" id="save-analysis-text" class="button secondary">추출 텍스트 수정 저장</button></div></section></template>
+  <template id="runtime-template"><section class="settings-block"><h3>로컬 분석과 실행</h3><p id="model-status"></p><button id="prepare-model" class="button secondary">로컬 분석 모델 준비</button><p>최초 준비 시 Hugging Face에서 모델을 내려받습니다. 이미지 분석은 PC에서 수행하며 원본을 전송하지 않습니다.</p><label><input id="download-enabled" type="checkbox"> 링크 이미지 가져오기 허용</label><p>켜면 직접 요청한 공개 URL에 접속합니다. 로그인과 저장 제한은 우회하지 않습니다.</p><button id="shortcut-button" class="button secondary">바탕화면 바로가기 만들기</button><button id="shutdown-button" class="button secondary">프로그램 종료</button><p>프로그램은 백그라운드에서 실행됩니다. 종료 후에는 RefArchive 바로가기로 다시 실행하세요.</p><a href="/guide" target="_blank" rel="noopener noreferrer">사용설명서 열기 ↗</a></section></template>
+  <template id="maintenance-template">
+    <section class="settings-block maintenance-panel">
+      <h3>백업 일정과 저장 위치</h3>
+      <p>ZIP과 압축 해제 총량 각각 최대 50 GiB · 내부 파일 50,000개. 원본과 휴지통을 함께 보관합니다.</p>
+      <label>백업 폴더 전체 경로<input id="backup-folder" type="text" maxlength="2000" spellcheck="false"></label>
+      <label><input id="backup-automatic" type="checkbox"> 앱 실행 중 하루 한 번 자동 백업</label>
+      <p>켜면 첫 백업을 시작합니다. 이후 마지막 성공으로부터 24시간마다 실행하며, 앱이 꺼져 있었다면 다음 실행 때 백업합니다. 백업 파일은 자동 삭제하지 않습니다.</p>
+      <button id="backup-settings" class="button secondary">백업 설정 저장</button>
+      <p id="maintenance-status" role="status" aria-live="polite"></p>
+      <progress id="maintenance-progress" max="100" value="0" aria-label="보관 작업 진행률" hidden></progress>
+      <p id="last-backup" class="storage-path"></p>
+      <button id="backup-download" class="button secondary" hidden>완료한 ZIP 다운로드</button>
+    </section>
+    <section class="settings-block">
+      <h3>유사 중복 정리</h3><p>크기·압축만 다른 것으로 보이는 이미지를 이 PC에서 비교합니다. 결과를 직접 확인한 뒤 한 파일만 휴지통으로 옮깁니다. 묶음 안의 파일도 개별 정리합니다.</p>
+      <p>최대 이미지 5,000개 · 후보 200쌍. 단색·정보가 적은 이미지, 동영상·PDF·링크는 제외합니다. 잘라내기·회전된 중복은 놓칠 수 있습니다.</p>
+      <button id="duplicates-start" class="button secondary">유사 중복 검사</button><button id="duplicates-open" class="button secondary">검사 결과 보기</button>
+    </section>
+    <section class="settings-block">
+      <h3>실행 상태와 업데이트</h3><p id="runtime-status" role="status"></p>
+      <p>ZIP 직접 전달 방식입니다. 받은 ZIP을 새 폴더에 풀고 <strong>업데이트 정보.json</strong>을 선택하면 현재 버전과 비교합니다. 새 배포 파일을 받기 전에는 새 버전을 자동으로 알 수 없습니다.</p>
+      <button id="release-check" class="button secondary">받은 버전 정보 확인</button><input id="release-input" type="file" accept=".json,application/json" hidden>
+      <p id="release-result" role="status"></p>
+      <p>업데이트 전 백업 후 프로그램을 종료하세요. 같은 Windows 계정에서 새 폴더의 EXE를 실행하면 기존 배포본 자료를 이어서 엽니다. 이전 프로그램 폴더는 확인할 때까지 보관하세요.</p>
+      <button id="diagnostics-save" class="button secondary">진단 보고서 저장</button>
+      <p>버전·운영체제·DB 검사·누락 파일 수·오류 종류·점검 결과를 JSON으로 저장합니다. 자료 내용·원본·경로·접속 토큰은 포함하지 않으며 외부 전송하지 않습니다.</p>
+    </section>
+    <details class="settings-block pilot-panel"><summary>다른 PC 배포 점검표</summary>
+      <p>받는 사람이 각 항목을 직접 시험한 뒤 결과를 기록하세요. 백업 복원은 현재 자료함을 교체하므로 처음에는 시험 자료만 넣고 확인하세요.</p>
+      <div id="pilot-checks"></div><button id="pilot-save" class="button secondary">점검 결과 저장</button><p id="pilot-status" role="status"></p>
+    </details>
+  </template>
+  <dialog id="duplicates-dialog" class="wide-dialog"><div class="dialog-heading"><h2>유사 중복 비교</h2><button class="close-button" data-close aria-label="닫기">×</button></div><p id="duplicates-summary" role="status"></p><p class="info-note">중복 판정은 후보입니다. 두 원본을 비교하세요. 선택한 파일만 휴지통으로 옮기며 복원할 수 있습니다. 분리한 파일은 묶음에 자동으로 다시 연결되지 않습니다.</p><div id="duplicates-list"></div></dialog>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="text-rule-dialog" aria-labelledby="text-rule-title">
+    <form id="text-rule-form">
+      <div class="dialog-heading"><h2 id="text-rule-title">텍스트 분류 규칙</h2><button type="button" class="close-button" data-close aria-label="닫기">×</button></div>
+      <p class="info-note">문구가 포함된 자료에 이 키워드를 추천하거나 적용합니다. 이미지 사례 10개나 분석 모델 없이 사용할 수 있습니다.</p>
+      <label>텍스트 분류 모드<select name="mode"><option value="off">끄기</option><option value="suggest">추천만</option><option value="auto">자동 적용</option></select></label>
+      <fieldset class="rule-fields"><legend>문구를 찾을 항목</legend>
+        <label><input type="checkbox" name="fields" value="title">제목 · 묶음 제목 포함</label>
+        <label><input type="checkbox" name="fields" value="filename">파일명</label>
+        <label><input type="checkbox" name="fields" value="note">메모 · 묶음 메모 포함</label>
+        <label><input type="checkbox" name="fields" value="content">본문 · 추출 텍스트</label>
+      </fieldset>
+      <label>포함 조건<select name="match"><option value="any">문구 중 하나라도 포함</option><option value="all">모든 문구 포함</option></select></label>
+      <label>찾을 문구<textarea name="terms" rows="5" maxlength="3030" placeholder="회의록&#10;회의 결과"></textarea><small>한 줄에 한 문구, 최대 30개·각 100자. 대소문자와 연속 공백을 구분하지 않습니다. 정규식이 아닌 포함 검색입니다.</small></label>
+      <p class="dialog-description">예: ‘회의록’ 키워드에 제목의 ‘회의록’, ‘회의 결과’ 중 하나를 찾도록 설정하세요. 모든 문구 조건은 선택한 항목·페이지에 나뉘어 있어도 일치합니다. 본문은 저장된 추출 텍스트를 사용하며, PDF에 없으면 로컬로 추출합니다. 스캔 자료는 먼저 OCR을 실행하세요. 링크 웹페이지나 동영상 음성은 읽지 않습니다.</p>
+      <p class="dialog-description">저장 후 새 자료부터 적용됩니다. 기존 자료나 제목·메모·본문을 수정한 자료는 분류 확인함에서 범위를 선택해 다시 분류하세요. 이미지 규칙과 함께 일치하면 텍스트 규칙의 모드를 우선합니다.</p>
+      <div class="dialog-actions"><button type="button" class="button secondary" data-close>취소</button><button id="text-rule-save" class="button primary">규칙 저장</button></div>
+    </form>
+  </dialog>
+  <dialog id="category-rule-dialog" aria-labelledby="category-rule-title">
+    <form id="category-rule-form">
+      <div class="dialog-heading"><h2 id="category-rule-title">카테고리 분류 기준</h2><button type="button" class="close-button" data-close aria-label="닫기">×</button></div>
+      <p class="info-note">카테고리 이름과 제목·파일명·본문을 비교합니다. 확실한 후보 하나만 자동 배정하고, 후보가 비슷하면 확인함에 남깁니다.</p>
+      <label>카테고리 분류 모드<select name="mode"><option value="auto">자동 배정</option><option value="suggest">추천만</option><option value="off">끄기</option></select></label>
+      <label>이 카테고리에 넣을 자료<textarea name="description" rows="3" maxlength="1000" placeholder="예: 프로젝트 회의의 결정 사항과 다음 할 일을 정리한 기록"></textarea><small>설명은 표현을 비교하는 보조 근거입니다. 자연어 명령을 실행하는 AI는 아닙니다.</small></label>
+      <label>포함 문구<textarea name="include" rows="3" maxlength="3030" placeholder="회의록&#10;회의 결과"></textarea><small>한 줄에 한 문구. 제목·파일명 일치를 우선하고, 본문에만 나오면 더 보수적으로 판단합니다.</small></label>
+      <label>제외 문구<textarea name="exclude" rows="3" maxlength="3030" placeholder="회의실 예약&#10;예시 양식"></textarea><small>어느 항목에서든 발견되면 이 카테고리의 후보에서 제외합니다. 포함·제외 각각 최대 30개, 문구당 100자.</small></label>
+      <p class="dialog-description">직접 지정하거나 승인한 자료를 비교 사례로 사용합니다. 같은 묶음은 한 사례이며 확인 전 자동 결과는 제외합니다. 스캔 자료는 OCR을 켜거나 먼저 실행하세요. 영상의 장면·음성과 링크 본문은 분석하지 않습니다.</p>
+      <p class="dialog-description">새 업로드부터 적용합니다. 기존 자료와 수정한 자료는 분류 확인함에서 다시 분류하세요. 직접 지정·승인·거절한 결과는 유지합니다.</p>
+      <div class="dialog-actions"><button type="button" class="button secondary" data-close>취소</button><button id="category-rule-save" class="button primary">분류 기준 저장</button></div>
+    </form>
+  </dialog>
+  <template id="classification-template">
+    <fieldset class="classification-scope"><legend>자료 분류 범위</legend>
+      <div class="scope-fields">
+        <label>대상<select id="classify-scope"><option value="uncategorized">카테고리 미지정 자료</option><option value="unfiled">키워드 미지정 자료</option><option value="unorganized">키워드와 카테고리 없는 자료</option><option value="new">새 자료 · 분류 이력 없음</option><option value="all">전체 자료</option><option value="filtered">현재 검색 결과</option><option value="selected">현재 선택한 자료</option></select></label>
+        <label>자료 유형<select id="classify-type"><option value="all">모든 유형</option><option value="document">문서 · Office·TXT 등</option><option value="pdf">PDF</option><option value="image">이미지</option><option value="video">동영상</option><option value="link">링크</option></select></label>
+        <label>키워드 조건<select id="classify-tag"><option value="">모든 키워드</option></select></label>
+        <label>카테고리 조건<select id="classify-category"><option value="">모든 카테고리</option></select></label>
+        <label>최근 등록 시간<input id="classify-hours" type="number" min="0.01" max="8760" step="any" placeholder="예: 1, 6, 24"><small>시간 단위. 비우면 등록 시간 제한 없음.</small></label>
+      </div>
+      <p class="dialog-description">조건을 모두 충족하는 자료에 카테고리와 키워드 분류 기준을 적용합니다. 텍스트 기준은 모든 유형에, 이미지 유사도는 이미지 키워드에만 적용합니다. 휴지통은 제외하며 묶음은 내부 파일별로 처리합니다.</p>
+      <button type="button" id="classify-preview" class="button secondary">대상 확인</button><p id="classify-count" role="status">조건을 선택한 뒤 대상을 확인하세요.</p>
+      <p class="dialog-description">재분류는 확인 전 자동 카테고리·키워드·추천을 새 설정으로 갱신합니다. 기준 미달 또는 끄기로 변경한 자동 결과는 제거합니다. 직접 지정·승인·거절 기록과 원본은 보존합니다. 이미 분류된 자료의 설정을 바꿨다면 전체 또는 해당 카테고리 범위를 선택하세요.</p>
+    </fieldset>
+  </template>
+</body>
+</html>

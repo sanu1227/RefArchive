@@ -1,0 +1,4 @@
+-r requirements-release.txt
+pyinstaller==6.22.3
+pyinstaller-hooks-contrib==2026.8
+Markdown==3.11
