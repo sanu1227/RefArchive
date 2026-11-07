@@ -393,3 +393,10 @@
 - `docs/user-guide.html`과 `docs/distribution-guide.html`로 HTML 안내 파일명을 영어화했다. README·Markdown·HTML 상호 링크, 문서 생성기, 배포 복사·검증 코드와 설치 바로가기 대상도 함께 수정했다.
 - `/guide`·`/distribution` 및 기존 한국어 URL 별칭을 유지하고 영어 HTML URL을 추가했다. HTTP 테스트가 새 URL과 기존 별칭을 함께 검증한다.
 - 추가 검증: 문서 HTTP 경로와 자료함 검사를 포함한 `test_archive.py` 13개 테스트를 통과했다. 새 영어 문서 URL과 기존 한국어 URL 별칭 모두 확인했다.
+
+## 2026-11-07 — GitHub Desktop 원격 연결과 로컬 작업 정리
+
+- 목표: 현재 로컬 작업과 기존 개발 이력을 보존하고 RefArchive 공개 main 브랜치에 다시 연결했다.
+- 변경: 로컬 작업을 별도 체크포인트와 archive/local-main-20261107 브랜치에 보존했다. 공개 소스의 영문 HTML 안내 파일명, 기존 URL 별칭과 제외 규칙을 유지했다.
+- 자료 보존: 화면 캡처와 기존 한국어 HTML 원본은 로컬 파일과 체크포인트로 유지했다. 개인 자료·모델·배포 파일·원래 로컬 Git 이력은 새로 공개하지 않았다.
+- 검증: 별도의 Python 3.13 검사 환경에 requirements.txt 의존성을 준비하고 연결 후 전체 Python 테스트 93개를 통과했다. 기존 앱과 실제 자료함은 조작하지 않았다.
